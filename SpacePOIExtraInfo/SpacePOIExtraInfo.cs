@@ -103,6 +103,11 @@ namespace SpacePOIExtraInfo
             {
                 var elementRows = Traverse.Create(__instance).Field("elementRows").GetValue() as Dictionary<Tag, GameObject>;
 
+                if (harvestable == null || harvestable.configuration == null || elementRows == null)
+                {
+                    return;
+                }
+
                 Dictionary<SimHashes, float> elementWeights = harvestable.configuration.GetElementsWithWeights();
 
                 float totalWeight = 0;
@@ -135,7 +140,6 @@ namespace SpacePOIExtraInfo
                         var FullTooltipStr = string.Format(TooltipFormat, TemperatureStr, MassTooltipStr);
 
                         GameObject elementRow = elementRows[tag];
-                        //var hierarchy = elementRow.GetComponent<HierarchyReferences>();
                         var tooltip = elementRow.GetComponent<ToolTip>();
 
                         if (tooltip == null)
