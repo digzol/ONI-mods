@@ -9,24 +9,23 @@ namespace SpacePOIExtraInfo
     public class SpacePOIExtraInfoPatches
     {
         // Hook into the method responsible for updating the info on the mass header (the label showing Mass Remaining)
-        // Add our own headers here for info related to the POI as a whole (e.g. maximum mass, recharge rate, etc.)
+        // Add our own rows here for info related to the POI as a whole (e.g. maximum mass, recharge rate, etc.)
         [HarmonyPatch(typeof(SpacePOISimpleInfoPanel))]
         [HarmonyPatch("RefreshMassHeader")]
         public class SpacePOIMassHeaderInfoPatch
         {
-            public static LocString MaxCapacityLabel = "<b>Maximum Mass</b>";
-            public static LocString RefillRateLabel = "<b>Refill Rate</b>";
-            public static LocString TimeUntillFullLabel = "<b>Time Until Full</b>";
+            public static LocString MAX_CAPACITY_LABEL = "<b>Maximum Mass</b>";
+            public static LocString REFILL_RATE_LABEL = "<b>Refill Rate</b>";
+            public static LocString TIME_UNTIL_FULL_LABEL = "<b>Time Until Full</b>";
 
             private static SpacePOISimpleInfoPanel SpacePOIInfoPanel;
-            private static GameObject MaxCapacityHeader;
-            private static GameObject RefillRateHeader;
-            private static GameObject TimeUntilFullHeader;
+            private static GameObject MaxCapacityRow;
+            private static GameObject RefillRateRow;
+            private static GameObject TimeUntilFullRow;
 
             public static void Postfix(
                 ref SpacePOISimpleInfoPanel __instance,
                 HarvestablePOIStates.Instance harvestable,
-                //GameObject selectedTarget,
                 CollapsibleDetailContentPanel spacePOIPanel)
             {
                 // Instantiate our new UI elements if there are none or the info panel got changed somehow
@@ -37,16 +36,16 @@ namespace SpacePOIExtraInfo
                     GameObject parentContainer = spacePOIPanel.Content.gameObject;
 
                     SpacePOIInfoPanel = __instance;
-                    MaxCapacityHeader = Util.KInstantiateUI(iconLabelRow, parentContainer);
-                    TimeUntilFullHeader = Util.KInstantiateUI(iconLabelRow, parentContainer);
-                    RefillRateHeader = Util.KInstantiateUI(iconLabelRow, parentContainer);
+                    MaxCapacityRow = Util.KInstantiateUI(iconLabelRow, parentContainer);
+                    TimeUntilFullRow = Util.KInstantiateUI(iconLabelRow, parentContainer);
+                    RefillRateRow = Util.KInstantiateUI(iconLabelRow, parentContainer);
                 }
 
                 bool isHarvestable = (harvestable != null);
 
-                MaxCapacityHeader.SetActive(isHarvestable);
-                RefillRateHeader.SetActive(isHarvestable);
-                TimeUntilFullHeader.SetActive(isHarvestable);
+                MaxCapacityRow.SetActive(isHarvestable);
+                RefillRateRow.SetActive(isHarvestable);
+                TimeUntilFullRow.SetActive(isHarvestable);
 
                 if (!isHarvestable)
                     return;
@@ -56,28 +55,28 @@ namespace SpacePOIExtraInfo
                 float refillRate = maxCapacity / harvestableConfig.GetRechargeTime();
                 float timeUntilFull = Mathf.RoundToInt((maxCapacity - harvestable.poiCapacity) / refillRate);
 
-                HierarchyReferences hierarchy;
+                HierarchyReferences refs;
 
                 // Max capacity
-                hierarchy = MaxCapacityHeader.GetComponent<HierarchyReferences>();
-                hierarchy.GetReference<LocText>("NameLabel").text = MaxCapacityLabel;
-                hierarchy.GetReference<LocText>("ValueLabel").text = GameUtil.GetFormattedMass(maxCapacity);
-                hierarchy.GetReference<LocText>("ValueLabel").alignment = TextAlignmentOptions.MidlineRight;
+                refs = MaxCapacityRow.GetComponent<HierarchyReferences>();
+                refs.GetReference<LocText>("NameLabel").text = MAX_CAPACITY_LABEL;
+                refs.GetReference<LocText>("ValueLabel").text = GameUtil.GetFormattedMass(maxCapacity);
+                refs.GetReference<LocText>("ValueLabel").alignment = TextAlignmentOptions.MidlineRight;
 
                 // Refill rate
-                hierarchy = RefillRateHeader.GetComponent<HierarchyReferences>();
-                hierarchy.GetReference<LocText>("NameLabel").text = RefillRateLabel;
-                hierarchy.GetReference<LocText>("ValueLabel").text = GameUtil.GetFormattedMass(refillRate, GameUtil.TimeSlice.PerCycle);
-                hierarchy.GetReference<LocText>("ValueLabel").alignment = TextAlignmentOptions.MidlineRight;
+                refs = RefillRateRow.GetComponent<HierarchyReferences>();
+                refs.GetReference<LocText>("NameLabel").text = REFILL_RATE_LABEL;
+                refs.GetReference<LocText>("ValueLabel").text = GameUtil.GetFormattedMass(refillRate, GameUtil.TimeSlice.PerCycle);
+                refs.GetReference<LocText>("ValueLabel").alignment = TextAlignmentOptions.MidlineRight;
 
                 // Time until full
-                TimeUntilFullHeader.SetActive(timeUntilFull > 0);
+                TimeUntilFullRow.SetActive(timeUntilFull > 0);
                 if (timeUntilFull > 0)
                 {
-                    hierarchy = TimeUntilFullHeader.GetComponent<HierarchyReferences>();
-                    hierarchy.GetReference<LocText>("NameLabel").text = TimeUntillFullLabel;
-                    hierarchy.GetReference<LocText>("ValueLabel").text = GameUtil.GetFormattedCycles(timeUntilFull);
-                    hierarchy.GetReference<LocText>("ValueLabel").alignment = TextAlignmentOptions.MidlineRight;
+                    refs = TimeUntilFullRow.GetComponent<HierarchyReferences>();
+                    refs.GetReference<LocText>("NameLabel").text = TIME_UNTIL_FULL_LABEL;
+                    refs.GetReference<LocText>("ValueLabel").text = GameUtil.GetFormattedCycles(timeUntilFull);
+                    refs.GetReference<LocText>("ValueLabel").alignment = TextAlignmentOptions.MidlineRight;
                 }
             }
         }
@@ -90,21 +89,20 @@ namespace SpacePOIExtraInfo
         [HarmonyPatch("RefreshElements")]
         public class SpacePOIElementsInfoPatch
         {
-            public static LocString TemperatureTooltip = "Extractable {0} at {1}.";
-            public static LocString CurrentMassTooltip = "Mass Remaining: {0}";
-            public static LocString MassCapacityTooltip = "Maximum Mass: {0}";
-            public static LocString MassRefillTooltip = "Refill Rate: {0}";
+            public static LocString TEMPERATURE_TOOLTIP = "Extractable {0} at {1}.";
+            public static LocString CURRENT_MASS_TOOLTIP = "Mass Remaining: {0}";
+            public static LocString MASS_CAPACITY_TOLLTIP = "Maximum Mass: {0}";
+            public static LocString MASS_REFILL_TOOLTIP = "Refill Rate: {0}";
 
-            public static LocString MassTooltipFormat = "{0}\n{1}\n{2}";
-            public static LocString TooltipFormat = "{0}\n\n{1}";
+            public static LocString MASS_TOOLTIP_FORMAT = "{0}\n{1}\n{2}";
+            public static LocString TOOLTIP_FORMAT = "{0}\n\n{1}";
 
             public static void Postfix(
                 ref SpacePOISimpleInfoPanel __instance,
                 HarvestablePOIStates.Instance harvestable)
             {
-                var elementRows = Traverse.Create(__instance).Field("elementRows").GetValue() as Dictionary<Tag, GameObject>;
-
-                if (harvestable == null || harvestable.configuration == null || elementRows == null)
+                if (harvestable == null || harvestable.configuration == null ||
+                    !(Traverse.Create(__instance).Field("elementRows").GetValue() is Dictionary<Tag, GameObject> elementRows))
                 {
                     return;
                 }
@@ -132,13 +130,13 @@ namespace SpacePOIExtraInfo
                         float maxMass = harvestable.configuration.GetMaxCapacity() * ratio;
                         float refillRate = maxMass / harvestable.configuration.GetRechargeTime();
 
-                        var TemperatureStr = string.Format(TemperatureTooltip, elementDef.name, GameUtil.GetFormattedTemperature(temperature));
-                        var CurrentMassStr = string.Format(CurrentMassTooltip, GameUtil.GetFormattedMass(currentMass));
-                        var MassCapacityStr = string.Format(MassCapacityTooltip, GameUtil.GetFormattedMass(maxMass));
-                        var MassRefillStr = string.Format(MassRefillTooltip, GameUtil.GetFormattedMass(refillRate, GameUtil.TimeSlice.PerCycle));
+                        var TemperatureStr = string.Format(TEMPERATURE_TOOLTIP, elementDef.name, GameUtil.GetFormattedTemperature(temperature));
+                        var CurrentMassStr = string.Format(CURRENT_MASS_TOOLTIP, GameUtil.GetFormattedMass(currentMass));
+                        var MassCapacityStr = string.Format(MASS_CAPACITY_TOLLTIP, GameUtil.GetFormattedMass(maxMass));
+                        var MassRefillStr = string.Format(MASS_REFILL_TOOLTIP, GameUtil.GetFormattedMass(refillRate, GameUtil.TimeSlice.PerCycle));
 
-                        var MassTooltipStr = string.Format(MassTooltipFormat, CurrentMassStr, MassCapacityStr, MassRefillStr);
-                        var FullTooltipStr = string.Format(TooltipFormat, TemperatureStr, MassTooltipStr);
+                        var MassTooltipStr = string.Format(MASS_TOOLTIP_FORMAT, CurrentMassStr, MassCapacityStr, MassRefillStr);
+                        var FullTooltipStr = string.Format(TOOLTIP_FORMAT, TemperatureStr, MassTooltipStr);
 
                         GameObject elementRow = elementRows[tag];
                         var tooltip = elementRow.GetComponent<ToolTip>();
