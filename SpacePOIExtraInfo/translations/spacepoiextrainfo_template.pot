@@ -1,0 +1,55 @@
+msgid ""
+msgstr ""
+"Application: Oxygen Not Included"
+"POT Version: 2.0"
+
+#. SpacePOIExtraInfo.SpacePOIExtraInfoPatches.LABEL_FORMAT
+msgctxt "SpacePOIExtraInfo.SpacePOIExtraInfoPatches.LABEL_FORMAT"
+msgid "<b>{0}</b>"
+msgstr ""
+
+#. SpacePOIExtraInfo.SpacePOIExtraInfoPatches.TOOLTIP_ENTRY_FORMAT
+msgctxt "SpacePOIExtraInfo.SpacePOIExtraInfoPatches.TOOLTIP_ENTRY_FORMAT"
+msgid "{0}: {1}"
+msgstr ""
+
+#. SpacePOIExtraInfo.STRINGS.UI.ARTIFACT_RECHARGE_TIME
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.ARTIFACT_RECHARGE_TIME"
+msgid "Время перезарядки"
+msgstr ""
+
+#. SpacePOIExtraInfo.STRINGS.UI.AVAILABLE
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.AVAILABLE"
+msgid "Доступно"
+msgstr ""
+
+#. SpacePOIExtraInfo.STRINGS.UI.EXTRACTABLE_MATERIAL_AT_TEMPERATURE
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.EXTRACTABLE_MATERIAL_AT_TEMPERATURE"
+msgid "Добываемый {0} при {1}"
+msgstr ""
+
+#. SpacePOIExtraInfo.STRINGS.UI.MASS_REFILL_RATE
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.MASS_REFILL_RATE"
+msgid "Скорость восполнения"
+msgstr ""
+
+#. SpacePOIExtraInfo.STRINGS.UI.MASS_REMAINING
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.MASS_REMAINING"
+msgid "Оставшаяся масса"
+msgstr ""
+
+#. SpacePOIExtraInfo.STRINGS.UI.MAX_MASS
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.MAX_MASS"
+msgid "Максимальная масса"
+msgstr ""
+
+#. SpacePOIExtraInfo.STRINGS.UI.TIME_UNTIL_FULL_MASS
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.TIME_UNTIL_FULL_MASS"
+msgid "Время до заполнения"
+msgstr ""
+
+#. SpacePOIExtraInfo.STRINGS.UI.UNAVAILABLE
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.UNAVAILABLE"
+msgid "Недоступно"
+msgstr ""
+

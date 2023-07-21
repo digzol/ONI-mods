@@ -1,23 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using System.Collections.Generic;
 using HarmonyLib;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using static Localization;
 
 namespace SpacePOIExtraInfo
 {
     public class SpacePOIExtraInfoPatches
     {
+        public static LocString LABEL_FORMAT = "<b>{0}</b>";
+        public static LocString TOOLTIP_ENTRY_FORMAT = "{0}: {1}";
+
         // Hook into the method responsible for updating the info on the mass header (the label showing Mass Remaining)
         // Add our own rows here for info related to the POI as a whole (e.g. maximum mass, recharge rate, etc.)
         [HarmonyPatch(typeof(SpacePOISimpleInfoPanel))]
         [HarmonyPatch("RefreshMassHeader")]
         public class SpacePOIMassHeaderInfoPatch
         {
-            public static LocString MAX_CAPACITY_LABEL = "<b>Maximum Mass</b>";
-            public static LocString REFILL_RATE_LABEL = "<b>Refill Rate</b>";
-            public static LocString TIME_UNTIL_FULL_LABEL = "<b>Time Until Full</b>";
-
             private static SpacePOISimpleInfoPanel SpacePOIInfoPanel;
             private static GameObject MaxCapacityRow;
             private static GameObject RefillRateRow;
@@ -59,13 +62,13 @@ namespace SpacePOIExtraInfo
 
                 // Max capacity
                 refs = MaxCapacityRow.GetComponent<HierarchyReferences>();
-                refs.GetReference<LocText>("NameLabel").text = MAX_CAPACITY_LABEL;
+                refs.GetReference<LocText>("NameLabel").text = string.Format(LABEL_FORMAT, STRINGS.UI.MAX_MASS);
                 refs.GetReference<LocText>("ValueLabel").text = GameUtil.GetFormattedMass(maxCapacity);
                 refs.GetReference<LocText>("ValueLabel").alignment = TextAlignmentOptions.MidlineRight;
 
                 // Refill rate
                 refs = RefillRateRow.GetComponent<HierarchyReferences>();
-                refs.GetReference<LocText>("NameLabel").text = REFILL_RATE_LABEL;
+                refs.GetReference<LocText>("NameLabel").text = string.Format(LABEL_FORMAT, STRINGS.UI.MASS_REFILL_RATE);
                 refs.GetReference<LocText>("ValueLabel").text = GameUtil.GetFormattedMass(refillRate, GameUtil.TimeSlice.PerCycle);
                 refs.GetReference<LocText>("ValueLabel").alignment = TextAlignmentOptions.MidlineRight;
 
@@ -74,7 +77,7 @@ namespace SpacePOIExtraInfo
                 if (timeUntilFull > 0)
                 {
                     refs = TimeUntilFullRow.GetComponent<HierarchyReferences>();
-                    refs.GetReference<LocText>("NameLabel").text = TIME_UNTIL_FULL_LABEL;
+                    refs.GetReference<LocText>("NameLabel").text = string.Format(LABEL_FORMAT, STRINGS.UI.TIME_UNTIL_FULL_MASS);
                     refs.GetReference<LocText>("ValueLabel").text = GameUtil.GetFormattedCycles(timeUntilFull);
                     refs.GetReference<LocText>("ValueLabel").alignment = TextAlignmentOptions.MidlineRight;
                 }
@@ -89,14 +92,6 @@ namespace SpacePOIExtraInfo
         [HarmonyPatch("RefreshElements")]
         public class SpacePOIElementsInfoPatch
         {
-            public static LocString TEMPERATURE_TOOLTIP = "Extractable {0} at {1}.";
-            public static LocString CURRENT_MASS_TOOLTIP = "Mass Remaining: {0}";
-            public static LocString MASS_CAPACITY_TOLLTIP = "Maximum Mass: {0}";
-            public static LocString MASS_REFILL_TOOLTIP = "Refill Rate: {0}";
-
-            public static LocString MASS_TOOLTIP_FORMAT = "{0}\n{1}\n{2}";
-            public static LocString TOOLTIP_FORMAT = "{0}\n\n{1}";
-
             public static void Postfix(
                 ref SpacePOISimpleInfoPanel __instance,
                 HarvestablePOIStates.Instance harvestable)
@@ -130,13 +125,12 @@ namespace SpacePOIExtraInfo
                         float maxMass = harvestable.configuration.GetMaxCapacity() * ratio;
                         float refillRate = maxMass / harvestable.configuration.GetRechargeTime();
 
-                        var TemperatureStr = string.Format(TEMPERATURE_TOOLTIP, elementDef.name, GameUtil.GetFormattedTemperature(temperature));
-                        var CurrentMassStr = string.Format(CURRENT_MASS_TOOLTIP, GameUtil.GetFormattedMass(currentMass));
-                        var MassCapacityStr = string.Format(MASS_CAPACITY_TOLLTIP, GameUtil.GetFormattedMass(maxMass));
-                        var MassRefillStr = string.Format(MASS_REFILL_TOOLTIP, GameUtil.GetFormattedMass(refillRate, GameUtil.TimeSlice.PerCycle));
+                        var TemperatureStr = string.Format(STRINGS.UI.EXTRACTABLE_MATERIAL_AT_TEMPERATURE, elementDef.name, GameUtil.GetFormattedTemperature(temperature));
+                        var CurrentMassStr = string.Format(TOOLTIP_ENTRY_FORMAT, STRINGS.UI.MASS_REMAINING, GameUtil.GetFormattedMass(currentMass));
+                        var MassCapacityStr = string.Format(TOOLTIP_ENTRY_FORMAT, STRINGS.UI.MAX_MASS, GameUtil.GetFormattedMass(maxMass));
+                        var MassRefillStr = string.Format(TOOLTIP_ENTRY_FORMAT, STRINGS.UI.MASS_REFILL_RATE, GameUtil.GetFormattedMass(refillRate, GameUtil.TimeSlice.PerCycle));
 
-                        var MassTooltipStr = string.Format(MASS_TOOLTIP_FORMAT, CurrentMassStr, MassCapacityStr, MassRefillStr);
-                        var FullTooltipStr = string.Format(TOOLTIP_FORMAT, TemperatureStr, MassTooltipStr);
+                        var TooltipStr = string.Format("{0}\n\n{1}\n{2}\n{3}", TemperatureStr, CurrentMassStr, MassCapacityStr, MassRefillStr);
 
                         GameObject elementRow = elementRows[tag];
                         var tooltip = elementRow.GetComponent<ToolTip>();
@@ -146,7 +140,7 @@ namespace SpacePOIExtraInfo
                             tooltip = elementRow.AddComponent(typeof(ToolTip)) as ToolTip;
                         }
 
-                        tooltip.SetSimpleTooltip(FullTooltipStr);
+                        tooltip.SetSimpleTooltip(TooltipStr);
                     } else
                     {
                         // Something is wrong; these elements should definitely already be displayed in the UI
@@ -155,19 +149,26 @@ namespace SpacePOIExtraInfo
                 }
             }
         }
-    
+
         // Hook into the method responsible for refreshing artifact info at the POI and inject our own code:
         // * Edit the artifact row to display the actual artifact.
         // * Enable text-wrapping so long artifact names can fit without overlapping.
         // * Bump the time to recharge to a new line to make it more consistant and have the text fit.
+
+
+        // TODO: Toolip 
+        /**
+         * > This object is a <b>{Terrestial|Space} Artifact</b>. It can be collected by a <link>Artifact Transport Module</link>.
+         * >
+         * > {0} artifacts have been collected here so far.
+         * OR
+         * > <red>Harvesting this artifact will delete this POI.</red>
+        */
+
         [HarmonyPatch(typeof(SpacePOISimpleInfoPanel))]
         [HarmonyPatch("RefreshArtifacts")]
         public class SpacePOIArtifactInfoPatch
         {
-            public static LocString ARTIFACT_AVAILABLE = "Available";
-            public static LocString ARTIFACT_UNAVAILABLE = "Unavailable";
-            public static LocString ARTIFACT_RECHARGE_LABEL = "<b>Recharge Time</b>";
-
             private static SpacePOISimpleInfoPanel SpacePOIInfoPanel;
             private static GameObject RechargeTimeRow;
 
@@ -235,7 +236,7 @@ namespace SpacePOIExtraInfo
 
                     HierarchyReferences refs = artifactRow.GetComponent<HierarchyReferences>();
                     refs.GetReference<LocText>("NameLabel").text = artifactPrefab.GetProperName();
-                    refs.GetReference<LocText>("ValueLabel").text = (canHarvestArtifact) ? ARTIFACT_AVAILABLE : ARTIFACT_UNAVAILABLE;
+                    refs.GetReference<LocText>("ValueLabel").text = (canHarvestArtifact) ? STRINGS.UI.AVAILABLE : STRINGS.UI.UNAVAILABLE;
 
                     var uisprite = Def.GetUISprite(smi.artifactToHarvest);
                     if (uisprite != null)
@@ -248,11 +249,44 @@ namespace SpacePOIExtraInfo
                     if (!canHarvestArtifact)
                     {
                         refs = RechargeTimeRow.GetComponent<HierarchyReferences>();
-                        refs.GetReference<LocText>("NameLabel").text = ARTIFACT_RECHARGE_LABEL;
+                        refs.GetReference<LocText>("NameLabel").text = string.Format(LABEL_FORMAT, STRINGS.UI.ARTIFACT_RECHARGE_TIME);
                         refs.GetReference<LocText>("ValueLabel").text = GameUtil.GetFormattedCycles(smi.RechargeTimeRemaining(), forceCycles: true);
                         refs.GetReference<LocText>("ValueLabel").alignment = TextAlignmentOptions.MidlineRight;
                     }
                 }
+            }
+        }
+
+        // Following Aki's translation guide:
+        //  https://forums.kleientertainment.com/forums/topic/123339-guide-for-creating-translatable-mods/
+        [HarmonyPatch(typeof(Localization), "Initialize")]
+        public class LocalizationInitializePatch
+        {
+            public static void Postfix() => Translate(typeof(STRINGS));
+
+            public static void Translate(Type root)
+            {
+                RegisterForTranslation(root);
+                LoadStrings();
+                LocString.CreateLocStringKeys(root, null);
+                GenerateStringsTemplate(root, Path.Combine(GetTranslationsPath()));
+            }
+
+            private static void LoadStrings()
+            {
+                string path = Path.Combine(GetTranslationsPath(), GetLocale()?.Code + ".po");
+                if (File.Exists(path))
+                    OverloadStrings(LoadStringsFile(path, false));
+            }
+
+            private static string GetTranslationsPath()
+            {
+                string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "translations");
+
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+                return path;
             }
         }
     }
