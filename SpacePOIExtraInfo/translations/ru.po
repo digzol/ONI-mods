@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.3.2\n"
+
+#. SpacePOIExtraInfo.SpacePOIExtraInfoPatches.LABEL_FORMAT
+msgctxt "SpacePOIExtraInfo.SpacePOIExtraInfoPatches.LABEL_FORMAT"
+msgid "<b>{0}</b>"
+msgstr ""
+
+#. SpacePOIExtraInfo.SpacePOIExtraInfoPatches.TOOLTIP_ENTRY_FORMAT
+msgctxt "SpacePOIExtraInfo.SpacePOIExtraInfoPatches.TOOLTIP_ENTRY_FORMAT"
+msgid "{0}: {1}"
+msgstr ""
+
+#. SpacePOIExtraInfo.STRINGS.UI.ARTIFACT_RECHARGE_TIME
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.ARTIFACT_RECHARGE_TIME"
+msgid "Recharge Time"
+msgstr "Время перезарядки"
+
+#. SpacePOIExtraInfo.STRINGS.UI.AVAILABLE
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.AVAILABLE"
+msgid "Available"
+msgstr "Доступно"
+
+#. SpacePOIExtraInfo.STRINGS.UI.EXTRACTABLE_MATERIAL_AT_TEMPERATURE
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.EXTRACTABLE_MATERIAL_AT_TEMPERATURE"
+msgid "Extractable {0} at {1}."
+msgstr "Добываемый {0} при {1}"
+
+#. SpacePOIExtraInfo.STRINGS.UI.MASS_REFILL_RATE
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.MASS_REFILL_RATE"
+msgid "Refill Rate"
+msgstr "Скорость восполнения"
+
+#. SpacePOIExtraInfo.STRINGS.UI.MASS_REMAINING
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.MASS_REMAINING"
+msgid "Mass remaining"
+msgstr "Оставшаяся масса"
+
+#. SpacePOIExtraInfo.STRINGS.UI.MAX_MASS
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.MAX_MASS"
+msgid "Maximum Mass"
+msgstr "Максимальная масса"
+
+#. SpacePOIExtraInfo.STRINGS.UI.TIME_UNTIL_FULL_MASS
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.TIME_UNTIL_FULL_MASS"
+msgid "Time Until Full"
+msgstr "Время до заполнения"
+
+#. SpacePOIExtraInfo.STRINGS.UI.UNAVAILABLE
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.UNAVAILABLE"
+msgid "Unavailable"
+msgstr "Недоступно"
