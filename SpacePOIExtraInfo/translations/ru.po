@@ -35,12 +35,12 @@ msgstr "Доступно"
 #. SpacePOIExtraInfo.STRINGS.UI.EXTRACTABLE_MATERIAL_AT_TEMPERATURE
 msgctxt "SpacePOIExtraInfo.STRINGS.UI.EXTRACTABLE_MATERIAL_AT_TEMPERATURE"
 msgid "Extractable {0} at {1}."
-msgstr "Добываемый {0} при {1}"
+msgstr "Добываем. {0} при {1}"
 
 #. SpacePOIExtraInfo.STRINGS.UI.MASS_REFILL_RATE
 msgctxt "SpacePOIExtraInfo.STRINGS.UI.MASS_REFILL_RATE"
 msgid "Refill Rate"
-msgstr "Скорость восполнения"
+msgstr "Восстановление"
 
 #. SpacePOIExtraInfo.STRINGS.UI.MASS_REMAINING
 msgctxt "SpacePOIExtraInfo.STRINGS.UI.MASS_REMAINING"
