@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Application: Oxygen Not IncludedPOT Version: 2.0\n"
+"X-Generator: Poedit 3.3.2\n"
+
+#. SpacePOIExtraInfo.SpacePOIExtraInfoPatches.LABEL_FORMAT
+msgctxt "SpacePOIExtraInfo.SpacePOIExtraInfoPatches.LABEL_FORMAT"
+msgid "<b>{0}</b>"
+msgstr ""
+
+#. SpacePOIExtraInfo.SpacePOIExtraInfoPatches.TOOLTIP_ENTRY_FORMAT
+msgctxt "SpacePOIExtraInfo.SpacePOIExtraInfoPatches.TOOLTIP_ENTRY_FORMAT"
+msgid "{0}: {1}"
+msgstr ""
+
+#. SpacePOIExtraInfo.STRINGS.UI.ARTIFACT_RECHARGE_TIME
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.ARTIFACT_RECHARGE_TIME"
+msgid "Recharge Time"
+msgstr "恢复时间"
+
+#. SpacePOIExtraInfo.STRINGS.UI.AVAILABLE
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.AVAILABLE"
+msgid "Available"
+msgstr "可收集"
+
+#. SpacePOIExtraInfo.STRINGS.UI.EXTRACTABLE_MATERIAL_AT_TEMPERATURE
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.EXTRACTABLE_MATERIAL_AT_TEMPERATURE"
+msgid "Extractable {0} at {1}."
+msgstr "可钻取{1}的{0}。"
+
+#. SpacePOIExtraInfo.STRINGS.UI.MASS_REFILL_RATE
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.MASS_REFILL_RATE"
+msgid "Refill Rate"
+msgstr "再填速率"
+
+#. SpacePOIExtraInfo.STRINGS.UI.MASS_REMAINING
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.MASS_REMAINING"
+msgid "Mass remaining"
+msgstr "剩余质量"
+
+#. SpacePOIExtraInfo.STRINGS.UI.MAX_MASS
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.MAX_MASS"
+msgid "Maximum Mass"
+msgstr "质量上限"
+
+#. SpacePOIExtraInfo.STRINGS.UI.TIME_UNTIL_FULL_MASS
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.TIME_UNTIL_FULL_MASS"
+msgid "Time Until Full"
+msgstr "填满需要"
+
+#. SpacePOIExtraInfo.STRINGS.UI.UNAVAILABLE
+msgctxt "SpacePOIExtraInfo.STRINGS.UI.UNAVAILABLE"
+msgid "Unavailable"
+msgstr "已收集"
