@@ -1,4 +1,4 @@
-supportedContent: EXPANSION1_ID
+requiredDlcIds: EXPANSION1_ID
 minimumSupportedBuild: 490405
-version: 1.3.6
+version: 1.3.7
 APIVersion: 2
