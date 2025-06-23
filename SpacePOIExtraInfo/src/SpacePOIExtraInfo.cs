@@ -176,6 +176,9 @@ namespace SpacePOIExtraInfo
                 ArtifactPOIConfigurator artifactConfigurator,
                 CollapsibleDetailContentPanel spacePOIPanel)
             {
+                if (artifactConfigurator == null || spacePOIPanel == null)
+                    return;
+
                 // Add UI changes if they weren't set yet or the info panel got set to a new instance somehow
                 if (!ReferenceEquals(SpacePOIInfoPanel, __instance))
                 {
