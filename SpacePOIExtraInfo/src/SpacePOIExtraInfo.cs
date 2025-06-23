@@ -188,10 +188,13 @@ namespace SpacePOIExtraInfo
 
                     // Setup word wrapping - this could really be optimized
                     GameObject artifactRow = Traverse.Create(__instance).Field("artifactRow").GetValue() as GameObject;
-                    HierarchyReferences refs = artifactRow.GetComponent<HierarchyReferences>();
-                    refs.GetReference<LocText>("NameLabel").enableWordWrapping = true;
-                    refs.GetReference<LocText>("NameLabel").gameObject.AddComponent<LayoutElement>().flexibleWidth = 1;
-                    refs.GetReference<LocText>("ValueLabel").gameObject.GetComponent<LayoutElement>().ignoreLayout = false;
+                    if (artifactRow != null)
+                    {
+                        HierarchyReferences refs = artifactRow.GetComponent<HierarchyReferences>();
+                        refs.GetReference<LocText>("NameLabel").enableWordWrapping = true;
+                        refs.GetReference<LocText>("NameLabel").gameObject.AddComponent<LayoutElement>().flexibleWidth = 1;
+                        refs.GetReference<LocText>("ValueLabel").gameObject.GetComponent<LayoutElement>().ignoreLayout = false;
+                    }
                 }
 
                 // Force the ui element to the bottom in case new element rows were added
@@ -236,7 +239,7 @@ namespace SpacePOIExtraInfo
 
                     HierarchyReferences refs = artifactRow.GetComponent<HierarchyReferences>();
                     refs.GetReference<LocText>("NameLabel").text = artifactPrefab.GetProperName();
-                    refs.GetReference<LocText>("ValueLabel").text = (canHarvestArtifact) ? STRINGS.UI.AVAILABLE : STRINGS.UI.UNAVAILABLE;
+                    refs.GetReference<LocText>("ValueLabel").text = canHarvestArtifact ? STRINGS.UI.AVAILABLE : STRINGS.UI.UNAVAILABLE;
 
                     var uisprite = Def.GetUISprite(smi.artifactToHarvest);
                     if (uisprite != null)
